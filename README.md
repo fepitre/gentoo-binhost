@@ -1,8 +1,6 @@
 gentoo-binhost
 ===
 
-See https://wiki.gentoo.org/wiki/Project:Binhost and https://wiki.gentoo.org/wiki/Binary_package_guide.
-
 # Installation
 
 ## Gitlab Runner
@@ -68,3 +66,33 @@ PORTAGE_LOGDIR_CLEAN="find \"\${PORTAGE_LOGDIR}\" -type f ! -name \"summary.log*
 A remote host is assumed to be configured to allow incoming SSH connections and to serve a web server like
 [NOTSET](https://gentoo.notset.fr/repo/standard/). Each job will rsync `/var/cache/binpkgs` to the corresponding remote
 location per flavor.
+
+# Usage
+
+## Build updates
+
+Following [2], the following command:
+```bash
+$ emerge -uDN @world --quiet-build --buildpkg
+```
+
+is scheduled in order to publish `binpkg` for every updates.
+
+## Full rebuild
+
+On a fully operational Gentoo system (physical of virtual), it may be needed to run the first time, a full rebuild of
+all packages. In order to do that, we recommend pretending the full rebuild to see if something goes wrong:
+
+```bash
+$ emerge -pe @world --quiet-build --buildpkg
+```
+
+If no error is noticed:
+```bash
+$ emerge -e @world --quiet-build --buildpkg
+```
+
+# References
+
+1. https://wiki.gentoo.org/wiki/Project:Binhost
+2. https://wiki.gentoo.org/wiki/Binary_package_guide.
