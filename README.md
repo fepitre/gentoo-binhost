@@ -1,7 +1,7 @@
 gentoo-binhost
 ===
 
-Some notes about how to set up a Gentoo `binhost` (see [1]) with the help of Gitlab CI.
+Some notes about how to set up a Gentoo `binhost` (see [[1]](https://wiki.gentoo.org/wiki/Project:Binhost)) with the help of Gitlab CI.
 
 An instance of this setup is hosted by the author and can be found at https://gentoo.notset.fr/repo/standard.
 
@@ -76,7 +76,7 @@ location per flavor.
 
 ## Build updates
 
-Following [2], the following command:
+From [[2]](https://wiki.gentoo.org/wiki/Binary_package_guide), the following command:
 ```bash
 $ emerge -uDN @world --quiet-build --buildpkg
 ```
