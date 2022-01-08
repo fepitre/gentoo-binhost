@@ -66,5 +66,5 @@ PORTAGE_LOGDIR_CLEAN="find \"\${PORTAGE_LOGDIR}\" -type f ! -name \"summary.log*
 ## Remote host
 
 A remote host is assumed to be configured to allow incoming SSH connections and to serve a web server like
-`https://gentoo.notset.fr/repo/standard/`. Each job will rsync `/var/cache/binpkgs` to the corresponding remote
+[NOTSET](https://gentoo.notset.fr/repo/standard/). Each job will rsync `/var/cache/binpkgs` to the corresponding remote
 location per flavor.
