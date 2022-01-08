@@ -1,6 +1,10 @@
 gentoo-binhost
 ===
 
+Some notes about how to set up a Gentoo `binhost` (see [1]) with the help of Gitlab CI.
+
+An instance of this setup is hosted by the author and can be found at https://gentoo.notset.fr/repo/standard.
+
 # Installation
 
 ## Gitlab Runner
@@ -44,6 +48,8 @@ $ systemctl start gitlab-runner
 
 # Configuration
 
+Profile and packages list can be adapted. Here we use what is provided for Qubes OS [Gentoo templates](https://github.com/QubesOS/qubes-builder-gentoo).
+
 ## Profile and packages list
 
 | Flavor  | Profile               | Packages list                                                                                                  | USE flags                                                                                                    | KEYWORDS                                                                                                                 |
@@ -63,8 +69,7 @@ PORTAGE_LOGDIR_CLEAN="find \"\${PORTAGE_LOGDIR}\" -type f ! -name \"summary.log*
 
 ## Remote host
 
-A remote host is assumed to be configured to allow incoming SSH connections and to serve a web server like
-[NOTSET](https://gentoo.notset.fr/repo/standard/). Each job will rsync `/var/cache/binpkgs` to the corresponding remote
+A remote host is assumed to be configured to allow incoming SSH connections and to serve a web server. Each job will rsync `/var/cache/binpkgs` to the corresponding remote
 location per flavor.
 
 # Usage
@@ -91,6 +96,12 @@ If no error is noticed:
 ```bash
 $ emerge -e @world --quiet-build --buildpkg
 ```
+
+# NOTSET
+
+On the hosted instance by the author, each Qubes OS gentoo template is used to create three independent `binhost` as
+virtual machines. They are registered as Gitlab runners. Artifacts and logs of build can be found 
+at [fepitre-bot/gentoo-binhost](https://gitlab.notset.fr/fepitre-bot/gentoo-binhost/).
 
 # References
 
