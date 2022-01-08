@@ -37,14 +37,13 @@ Add `gitlab-runner` to `portage` group to allow `gitlab-runner` to copy `/var/lo
 ```bash
 $ usermod -aG portage gitlab-runner
 ```
+> FIXME: is there a better solution?
 
 Enable and start `gitlab-runner`:
 ```bash
 $ systemctl enable gitlab-runner
 $ systemctl start gitlab-runner
 ```
-
-> FIXME: is there a better solution?
 
 # Configuration
 
