@@ -3,7 +3,7 @@ gentoo-binhost
 
 Some notes about how to set up a Gentoo `binhost` (see [[1]](https://wiki.gentoo.org/wiki/Project:Binhost)) with the help of Gitlab CI.
 
-An instance of this setup is hosted by the author and can be found at https://gentoo.notset.fr/repo/standard.
+An instance of this setup is hosted by the author and can be found at https://gentoo.notset.fr/repo/standard/.
 
 # Installation
 
