@@ -51,8 +51,8 @@ Profile and packages list can be adapted. Here we use what is provided for Qubes
 
 ## Profile and packages list
 
-| Flavor  | Profile               | Packages list                                                                                                  | USE flags                                                                                                    | KEYWORDS                                                                                                                 |
-|---------|-----------------------|----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| Flavor  | Profile                                        | Packages list                                                                                                  | USE flags                                                                                                    | KEYWORDS                                                                                                                 |
+|---------|------------------------------------------------|----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
 | GNOME   | default/linux/amd64/17.1/desktop/gnome/systemd | [gnome](https://raw.githubusercontent.com/QubesOS/qubes-builder-gentoo/master/scripts/packages_gnome.list)     | [gnome](https://raw.githubusercontent.com/QubesOS/qubes-builder-gentoo/master/scripts/package.use/gnome)     | [gnome](https://raw.githubusercontent.com/QubesOS/qubes-builder-gentoo/master/scripts/package.accept_keywords/gnome)     |
 | XFCE    | default/linux/amd64/17.1/desktop/gnome/systemd | [xfce](https://raw.githubusercontent.com/QubesOS/qubes-builder-gentoo/master/scripts/packages_xfce.list)       | [xfce](https://raw.githubusercontent.com/QubesOS/qubes-builder-gentoo/master/scripts/package.use/xfce)       | [xfce](https://raw.githubusercontent.com/QubesOS/qubes-builder-gentoo/master/scripts/package.accept_keywords/xfce)       |
 | MINIMAL | default/linux/amd64/17.1/systemd               | [minimal](https://raw.githubusercontent.com/QubesOS/qubes-builder-gentoo/master/scripts/packages_minimal.list) | [minimal](https://raw.githubusercontent.com/QubesOS/qubes-builder-gentoo/master/scripts/package.use/minimal) | [minimal](https://raw.githubusercontent.com/QubesOS/qubes-builder-gentoo/master/scripts/package.accept_keywords/minimal) |
@@ -99,7 +99,7 @@ $ emerge -e @world --quiet-build --buildpkg
 # NOTSET
 
 On the hosted instance by the author, each Qubes OS gentoo template is used to create three independent `binhost` as
-virtual machines. They are registered as Gitlab runners. Artifacts and logs of build can be found 
+virtual machines. They are registered as Gitlab runners. Artifacts and logs of builds can be found 
 at [fepitre-bot/gentoo-binhost](https://gitlab.notset.fr/fepitre-bot/gentoo-binhost/).
 
 # References
