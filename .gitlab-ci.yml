@@ -9,6 +9,7 @@
     - "gentoo-binhost-$CI_JOB_NAME"
   stage: build
   script:
+    - sudo emerge --sync
     # We exclude Qubes OS packages and Gitlab related ones.
     - sudo emerge -uDN @world --quiet-build --buildpkg --buildpkg-exclude "app-emulation/qubes-* */gitlab*"
     - rsync -e "ssh -o StrictHostKeyChecking=no" -av --progress --no-perms --omit-dir-times /var/cache/binpkgs/ "mirror.notset.fr:/data/gentoo/repo/standard/$CI_JOB_NAME/"
