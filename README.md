@@ -1,13 +1,44 @@
 gentoo-binhost
 ===
 
-Some notes about how to set up a Gentoo `binhost` (see [[1]](https://wiki.gentoo.org/wiki/Project:Binhost)) with the help of Gitlab CI.
+Some notes about how to set up a Gentoo `binhost` (see [[1]](https://wiki.gentoo.org/wiki/Project:Binhost)) with Qubes Split GPG.
 
 An instance of this setup is hosted by the author and can be found at https://gentoo.notset.fr/repo/standard/.
 
 # Installation
 
-## Gitlab Runner
+## Standard
+
+Create a user say `user` being part of the group `portage`:
+```bash
+$ useradd -m user
+$ passwd user
+(...)
+$ usermod -aG portage user
+```
+
+Allow `user` user to `emerge`:
+```bash
+$ echo 'user ALL = NOPASSWD: /usr/bin/emerge' > /etc/sudoers.d/user
+```
+
+Create `/var/log/binhost`:
+```bash
+$ mkdir /var/log/binhost
+$ chown user:user /var/log/binhost
+```
+
+Clone or copy the repository script `binhost-cron.sh` inside your wanted location say `/home/user/gentoo-binhost/binhost-cron.sh`
+and add a cron job for `user`. For example, every day at midnight:
+
+```
+0 0 * * * /home/user/gentoo-binhost/binhost-cron.sh mirror.local:/pub
+```
+
+Adapt the remote location `mirror.local:/pub` on your case. The script assumes to be able to RSYNC over SSH (we let this
+part to the user).
+
+## Gitlab Runner setup (for testing purpose only!)
 
 Add `gitlab` overlay:
 ```bash
@@ -66,6 +97,23 @@ PORTAGE_LOGDIR="/var/log/portage"
 PORTAGE_LOGDIR_CLEAN="find \"\${PORTAGE_LOGDIR}\" -type f ! -name \"summary.log*\" -mtime +7 -delete"
 ```
 
+### Signed binpkg and Qubes Split GPG
+
+In order to publish signed binary package in a secure way, we use [Qubes OS Split GPG](https://www.qubes-os.org/doc/split-gpg/) to isolate private
+keys used to sign artifacts.
+
+Add to `/etc/portage/make.conf`:
+```bash
+FEATURES="${FEATURES} binpkg-signing binpkg-request-signature"
+BINPKG_FORMAT="gpkg"
+BINPKG_GPG_SIGNING_KEY="1C8714D640F30457EC953050656946BA873DDEC1"
+BINPKG_GPG_SIGNING_BASE_COMMAND="flock /run/lock/binpkg-gpg.lock /usr/bin/qubes-gpg-client-wrapper --sign --armor [PORTAGE_CONFIG]"
+BINPKG_GPG_VERIFY_BASE_COMMAND="/usr/bin/qubes-gpg-client-wrapper --verify --batch --no-tty --no-auto-check-trustdb --status-fd 2 [PORTAGE_CONFIG] [SIGNATURE]"
+```
+
+The key `1C8714D640F30457EC953050656946BA873DDEC1` is the `fepitre-bot` signing key. We let the user follow the Qubes OS
+documentation to set up Split GPG. After configuration, add your qube name container private keys to `/rw/config/gpg-split-domain`.
+
 ## Remote host
 
 A remote host is assumed to be configured to allow incoming SSH connections and to serve a web server. Each job will rsync `/var/cache/binpkgs` to the corresponding remote
@@ -79,8 +127,7 @@ From [[2]](https://wiki.gentoo.org/wiki/Binary_package_guide), the following com
 ```bash
 $ emerge -uDN @world --quiet-build --buildpkg
 ```
-
-is scheduled in order to publish `binpkg` for every updates.
+is scheduled in order to publish `binpkg` for every update.
 
 ## Full rebuild
 
@@ -98,9 +145,8 @@ $ emerge -e @world --quiet-build --buildpkg
 
 # NOTSET
 
-On the hosted instance by the author, each Qubes OS gentoo template is used to create three independent `binhost` as
-virtual machines. They are registered as Gitlab runners. Artifacts and logs of builds can be found 
-at [fepitre-bot/gentoo-binhost](https://gitlab.notset.fr/fepitre-bot/gentoo-binhost/).
+On the hosted instance by the author, each Qubes OS Gentoo template is used to create three independent `binhost` as
+virtual machines.
 
 # References
 
